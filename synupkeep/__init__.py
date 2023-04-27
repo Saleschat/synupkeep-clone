@@ -260,10 +260,10 @@ def run(arguments: argparse.Namespace) -> ExitCode:
         )
         paths = get_local_media_paths(arguments.media_store, media_id)
         for path in paths:
-            if not os.path.isfile(path):
-                logger.debug("{!r} could not be found or is not a file", path)
+            if not os.path.exists(path):
+                logger.debug("{!r} could not be found", path)
                 continue
-            os.remove(path)
+            os.rmdir(path)
 
         delete_local_media_record(db, media_id)
 
