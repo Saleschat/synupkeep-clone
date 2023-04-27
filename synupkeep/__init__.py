@@ -265,7 +265,7 @@ def run(arguments: argparse.Namespace) -> ExitCode:
             elif os.path.isdir(path):
                 os.rmdir(path)
             else:
-                raise ValueError(f"Path {path} is not a file or directory")
+                logger.warn("Path {} is not a file or directory", path)
 
         delete_local_media_record(db, media_id)
 
