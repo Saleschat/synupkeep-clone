@@ -27,6 +27,7 @@ import time
 import urllib.parse
 from datetime import datetime, timedelta
 from typing import Optional, Set, List, Dict
+from shutil import rmtree
 
 import postgres
 import psycopg2
@@ -263,7 +264,7 @@ def run(arguments: argparse.Namespace) -> ExitCode:
             if os.path.isfile(path):
                 os.remove(path)
             elif os.path.isdir(path):
-                os.rmdir(path)
+                rmtree(path)
             else:
                 logger.warn("Path {} is not a file or directory", path)
 
