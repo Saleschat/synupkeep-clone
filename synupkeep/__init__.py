@@ -27,7 +27,6 @@ import time
 import urllib.parse
 from datetime import datetime, timedelta
 from typing import Optional, Set, List, Dict
-from shutil import rmtree
 
 import postgres
 import psycopg2
@@ -261,10 +260,12 @@ def run(arguments: argparse.Namespace) -> ExitCode:
         )
         paths = get_local_media_paths(arguments.media_store, media_id)
         for path in paths:
-            if not os.path.exists(path):
-                logger.debug("{!r} could not be found", path)
-                continue
-            rmtree(path)
+            if os.path.isfile(path):
+                os.remove(path)
+            elif os.path.isdir(path):
+                os.rmdir(path)
+            else:
+                raise ValueError(f"Path {path} is not a file or directory")
 
         delete_local_media_record(db, media_id)
 
